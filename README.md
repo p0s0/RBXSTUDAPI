@@ -30,3 +30,4 @@ CREATE TABLE `models` (
   `tkprice` LONGTEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
+Modify ```/game/ProdRBX/Configuration.php``` to use your own configs, and you are done!
