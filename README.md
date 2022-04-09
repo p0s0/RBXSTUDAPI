@@ -16,3 +16,17 @@ AddType application/x-httpd-php .ashx
 AddHandler application/x-httpd-php .aspx
 AddType application/x-httpd-php .aspx
 ```
+Create a database called "prodrbx", and use the following SQL code:
+```
+CREATE TABLE `models` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(100) NOT NULL,
+  `approved` varchar(100) NOT NULL,
+  `creatorname` LONGTEXT NOT NULL,
+  `creatorid` varchar(100) NOT NULL,
+  `public` varchar(100) NOT NULL,
+  `type` LONGTEXT NULL,
+  `rsprice` LONGTEXT NOT NULL,
+  `tkprice` LONGTEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+```
