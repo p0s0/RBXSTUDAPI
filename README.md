@@ -39,4 +39,22 @@ CREATE TABLE `asset` (
   `tkprice` LONGTEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
+and then use the following SQL code too:
+```
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(100) NOT NULL,
+  `password` LONGTEXT NOT NULL,
+  `email` LONGTEXT NOT NULL,
+  `robux` varchar(100) NOT NULL,
+  `ticket` varchar(100) NOT NULL,
+  `status` LONGTEXT NOT NULL,
+  `admin` varchar(100) NOT NULL,
+  `termtype` varchar(100) NOT NULL,
+  `treason` LONGTEXT NOT NULL,
+  `tdate` varchar(100) NOT NULL,
+  `creationdate` varchar(100) NOT NULL,
+  `token` LONGTEXT NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+```
 Modify ```/game/ProdRBX/Configuration.php``` to use your own configs, and you are done!
