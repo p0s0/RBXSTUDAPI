@@ -1,4 +1,5 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/UserInfo.php'); ?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -53,15 +54,36 @@
    </head>
    <body id="StudioWelcomeBody">
       <div class="header">
-         <div id="header-login-wrapper" class="iframe-login-signup" data-display-opened="">
-            <a href="<?php echo $baseUrl; ?>/Login/NewAge.aspx" target="_blank" class="GrayButton translate" id="header-signup"><span>Sign Up</span></a>
-            <span id="header-or">or</span>
-            <span class="studioiFrameLogin">
-               <span id="login-span">
-               <a id="header-login" class="btn-control btn-control-large">Login <span class="grey-arrow">&#9660;</span></a>
-               </span>
-            </span>
-         </div>
+<?php
+	if($name !== null){
+		echo "
+					 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
+						<span id='header-or'>Logged in as ". $name ."</span>
+							<span class='studioiFrameLogin'>
+								<span id='login-span'>
+									<a href='". $baseUrl ."/Login/LoggonAPI/Logout.aspx' class='btn-control btn-control-large'>Logout <span class='grey-arrow'>&#9660;</span></a>
+								</span>
+							</span>
+						</div>
+		";
+	}else{
+		echo 
+		"
+					 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
+						<a href='". $baseUrl ."/Login/NewAge.aspx' target='_blank' class='GrayButton translate' id='header-signup'><span>Sign Up</span></a>
+						<span id='header-or'>or</span>
+							<span class='studioiFrameLogin'>
+								<span id='login-span'>
+									<a id='header-login' class='btn-control btn-control-large'>Login <span class='grey-arrow'>&#9660;</span></a>
+								</span>
+								<div id='iFrameLogin' class='studioiFrameLogin' style='display: none'>
+								<iframe class='login-frame' src='". $baseUrl ."/Login/iFrameLogin.aspx' scrolling='no' frameborder='0'></iframe>
+							</span>
+						</div>
+					 </div>
+		";
+	}
+?>
          <img src="<?php echo $baseUrl; ?>/images/IDE/img-studio_title.png" alt="Roblox Studio Title" />
       </div>
       <div class="container">
@@ -86,7 +108,7 @@
                   </ul>
                </div>
                <div class="templates" js-data-templatetype="Basic">
-                  <div class="template" placeid="95206881">
+                  <div class="template" placeid="4">
                      <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/Baseplate.jpg' /></a>
                      <p>Baseplate</p>
                   </div>
