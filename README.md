@@ -6,6 +6,8 @@
 # RBXSTUDAPI
 This is roblox API for studio.
 More specifically late 2014 studio API.
+<b>WARNING: All of this code is prone to any drastical change.
+Please ALWAYS keep backups before actually using a newer version.</b>
 # How to set it up:
 Put the following on .htaccess:
 ```
@@ -30,7 +32,7 @@ CREATE TABLE `asset` (
   `creatorname` LONGTEXT NOT NULL,
   `creatorid` varchar(100) NOT NULL,
   `public` varchar(100) NOT NULL,
-  `type` LONGTEXT NULL,
+  `genre` LONGTEXT NULL,
   `itemtype` LONGTEXT NULL,
   `rsprice` LONGTEXT NOT NULL,
   `tkprice` LONGTEXT NOT NULL
