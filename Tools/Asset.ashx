@@ -7,7 +7,7 @@ if (isset($_GET['request'])){
 	$request = $_GET['request'];
 	$id = $_GET['id'];
 	if ($request == "model"){
-		$ModelFetch = mysqli_query($MainDB, "SELECT * FROM models WHERE approved = '1' AND id = '". $id ."'");
+		$ModelFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND id = '". $id ."' AND itemtype = '". $request ."'");
 		if (mysqli_num_rows($ModelFetch) > 0){
 			if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/Tools/UserCreatedImages/". $id .".png")){
 				echo file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/Tools/UserCreatedImages/". $id .".png");
