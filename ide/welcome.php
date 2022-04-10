@@ -49,7 +49,19 @@
          Roblox.config.paths['Widgets.SurveyModal'] = '<?php echo $baseUrl; ?>/js/rbxcdn/d6e979598c460090eafb6d38231159f6.js';
       </script>
       <script type="text/javascript">
-         function editTemplateInStudio(play_placeId) { RobloxLaunch._GoogleAnalyticsCallback = function() { var isInsideRobloxIDE = 'website'; if (Roblox && Roblox.Client && Roblox.Client.isIDE && Roblox.Client.isIDE()) { isInsideRobloxIDE = 'Studio'; };GoogleAnalyticsEvents.FireEvent(['Edit Location', 'Guest', isInsideRobloxIDE]);GoogleAnalyticsEvents.FireEvent(['Edit', 'Guest', '']); };  Roblox.Client.WaitForRoblox(function() { RobloxLaunch.StartGame('http://www.roblonium.com//Game/edit.ashx?PlaceID='+play_placeId+'&upload=', 'edit.ashx', 'https://www.roblonium.com//Login/Negotiate.ashx', 'FETCH', true); }); }
+         function editTemplateInStudio(play_placeId) {
+			RobloxLaunch._GoogleAnalyticsCallback = function() {
+				var isInsideRobloxIDE = 'website';
+				if (Roblox && Roblox.Client && Roblox.Client.isIDE && Roblox.Client.isIDE()) {
+					isInsideRobloxIDE = 'Studio';
+				};
+				GoogleAnalyticsEvents.FireEvent(['Edit Location', 'Guest', isInsideRobloxIDE]);
+				GoogleAnalyticsEvents.FireEvent(['Edit', 'Guest', '']);
+			};
+			Roblox.Client.WaitForRoblox(function() {
+				RobloxLaunch.StartGame('<?php echo $baseUrl; ?>/asset/?id=' + play_placeId, '<?php echo $baseUrl; ?>//Login/Negotiate.ashx', 'FETCH', true);
+			});
+		}
       </script>
    </head>
    <body id="StudioWelcomeBody">
