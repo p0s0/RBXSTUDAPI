@@ -5,17 +5,13 @@
 //*Public
 //*Approved by Staff
 
-if(isset($_GET['type'])){
-	$type = $_GET['type'];
-	if ($type == "Weapons"){
-		$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM models WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND type = 'weapons'");
-	}elseif($type == "GameStuff"){
-		$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM models WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND type = 'gamestuff'");
-	}else{
-		$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM models WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0'");
+if(isset($_GET['genre'])){
+	$genre = $_GET['genre'];
+	if ($genre !== null){
+		$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = '". $genre ."' AND itemtype = 'model'");
 	}
 }else{
-	$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM models WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0'");
+	$ToolboxFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND itemtype = 'model'");
 }
 
 $BoxRows = mysqli_num_rows($ToolboxFetch);
@@ -78,9 +74,9 @@ $BoxRows = mysqli_num_rows($ToolboxFetch);
       <div id="NewToolboxContainer">
          <div id="ToolboxControls">
             <div id="SetTabs">
-               <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx?type=All" style="text-decoration: none;"><div id="All" class="Tabs">All</div></a>
-			   <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx?type=Weapons" style="text-decoration: none;"><div id="Weapons" class="Tabs">Weapons</div></a>
-			   <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx?type=GameStuff" style="text-decoration: none;"><div id="GameStuff" class="Tabs">Game Stuff</div></a>
+               <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx" style="text-decoration: none;"><div id="All" class="Tabs">All</div></a>
+			   <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx?genre=Weapons" style="text-decoration: none;"><div id="Weapons" class="Tabs">Weapons</div></a>
+			   <a href="<?php echo $baseUrl; ?>/IDE/ClientToolbox.aspx?genre=GameStuff" style="text-decoration: none;"><div id="GameStuff" class="Tabs">Game Stuff</div></a>
             </div>
          </div>
          <div id="ToolBoxScrollWrapper">
