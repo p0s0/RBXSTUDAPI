@@ -80,7 +80,7 @@ $ActionRows = mysqli_num_rows($ActionFetch);
 						<span id='header-or'>Logged in as ". $name ."</span>
 							<span class='studioiFrameLogin'>
 								<span id='login-span'>
-									<a href='". $baseUrl ."/Login/LoggonAPI/Logout.aspx' class='btn-control btn-control-large'>Logout <span class='grey-arrow'>&#9660;</span></a>
+									<a href='". $baseUrl ."/Login/LoggonAPI/Logout.aspx' class='btn-control btn-control-large'>Logout</a>
 								</span>
 							</span>
 						</div>
