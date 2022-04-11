@@ -1,5 +1,14 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/UserInfo.php'); ?>
+<?php
+$BasicFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatebasic' AND itemtype = 'place'");
+$StrategyFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatestrategy' AND itemtype = 'place'");
+$ActionFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templateaction' AND itemtype = 'place'");
+
+$BasicRows = mysqli_num_rows($BasicFetch);
+$StrategyRows = mysqli_num_rows($StrategyFetch);
+$ActionRows = mysqli_num_rows($ActionFetch);
+?>
 <!DOCTYPE html>
 <html>
    <head>
@@ -55,11 +64,9 @@
 				if (Roblox && Roblox.Client && Roblox.Client.isIDE && Roblox.Client.isIDE()) {
 					isInsideRobloxIDE = 'Studio';
 				};
-				GoogleAnalyticsEvents.FireEvent(['Edit Location', 'Guest', isInsideRobloxIDE]);
-				GoogleAnalyticsEvents.FireEvent(['Edit', 'Guest', '']);
 			};
 			Roblox.Client.WaitForRoblox(function() {
-				RobloxLaunch.StartGame('<?php echo $baseUrl; ?>/asset/?id=' + play_placeId, '<?php echo $baseUrl; ?>//Login/Negotiate.ashx', 'FETCH', true);
+				RobloxLaunch.StartGame('<?php echo $baseUrl; ?>/Game/LoadPlaceFile.ashx?PlaceId=' + play_placeId, '<?php echo $baseUrl; ?>//Login/Negotiate.ashx', 'FETCH', true);
 			});
 		}
       </script>
@@ -120,34 +127,52 @@
                   </ul>
                </div>
                <div class="templates" js-data-templatetype="Basic">
-                  <div class="template" placeid="4">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/Baseplate.jpg' /></a>
-                     <p>Baseplate</p>
+			<?php
+			if ($BasicRows > 0) {
+				while($Betch = $BasicFetch->fetch_assoc()){
+				echo "
+                  <div class='template' placeid='". $Betch['id'] ."'>
+                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Betch['id'] ."&request=place' /></a>
+                     <p>". $Betch['name'] ."</p>
                   </div>
-                  <div class="template" placeid="95206192">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/FlatTerrain.jpg' /></a>
-                     <p>Flat Terrain</p>
-                  </div>
+				";
+				}
+			}else{
+				echo "<span>There are no templates.</span>";
+			}
+			?>
                </div>
                <div class="templates" js-data-templatetype="Strategy">
-                  <div class="template" placeid="92721754">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/CaptureTheFlag.png' /></a>
-                     <p>Capture The Flag</p>
+			<?php
+			if ($StrategyRows > 0) {
+				while($Setch = $StrategyFetch->fetch_assoc()){
+				echo "
+                  <div class='template' placeid='". $Setch['id'] ."'>
+                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Setch['id'] ."&request=place' /></a>
+                     <p>". $Setch['name'] ."</p>
                   </div>
-                  <div class="template" placeid="95269276">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/ControlPoints.png' /></a>
-                     <p>Control Points</p>
-                  </div>
+				";
+				}
+			}else{
+				echo "<span>There are no templates.</span>";
+			}
+			?>
                </div>
                <div class="templates" js-data-templatetype="Action">
-                  <div class="template" placeid="92721884">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/FreeForAll.png' /></a>
-                     <p>Free For All</p>
+			<?php
+			if ($ActionRows > 0) {
+				while($Aetch = $ActionFetch->fetch_assoc()){
+				echo "
+                  <div class='template' placeid='". $Aetch['id'] ."'>
+                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Aetch['id'] ."&request=place' /></a>
+                     <p>". $Aetch['name'] ."</p>
                   </div>
-                  <div class="template" placeid="95205458">
-                     <a href="" class="game-image"><img width="197" height="115" class='' src='<?php echo $baseUrl; ?>/Images/IDE/TeamDeathmatch.jpg' /></a>
-                     <p>Team Deathmatch</p>
-                  </div>
+				";
+				}
+			}else{
+				echo "<span>There are no templates.</span>";
+			}
+			?>
                </div>
             </div>
             <div id="MyProjectsView" class="welcome-content-area" style="display: none">
