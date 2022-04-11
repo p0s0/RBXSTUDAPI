@@ -12,6 +12,7 @@ if ($RBXTICKET !== null) {
 	$GetInfo->execute();
 	$GetInfo->bind_result($id, $name, $ticket, $robux, $terminated, $admin);
 	$GetInfo->fetch();
+	$GetInfo->close();
 }else{
 	$id = null;
 	$name = null;
