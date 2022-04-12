@@ -1,13 +1,16 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/UserInfo.php'); ?>
 <?php
-$BasicFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatebasic' AND itemtype = 'place'");
-$StrategyFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatestrategy' AND itemtype = 'place'");
-$ActionFetch = mysqli_query($MainDB, "SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templateaction' AND itemtype = 'place'");
+$BasicFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatebasic' AND itemtype = 'place'");
+$BasicFetch->execute();
+$StrategyFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templatestrategy' AND itemtype = 'place'");
+$StrategyFetch->execute();
+$ActionFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templateaction' AND itemtype = 'place'");
+$ActionFetch->execute();
 
-$BasicRows = mysqli_num_rows($BasicFetch);
-$StrategyRows = mysqli_num_rows($StrategyFetch);
-$ActionRows = mysqli_num_rows($ActionFetch);
+$BasicRows = $BasicFetch->fetchAll();
+$StrategyRows = $StrategyFetch->fetchAll();
+$ActionRows = $ActionFetch->fetchAll();
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,33 +77,37 @@ $ActionRows = mysqli_num_rows($ActionFetch);
    <body id="StudioWelcomeBody">
       <div class="header">
 <?php
-	if($name !== null){
-		echo "
-					 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
-						<span id='header-or'>Logged in as ". $name ."</span>
-							<span class='studioiFrameLogin'>
-								<span id='login-span'>
-									<a href='". $baseUrl ."/Login/LoggonAPI/Logout.aspx' class='btn-control btn-control-large'>Logout</a>
+	switch(true){
+		case ($name):
+			echo "
+						 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
+							<span id='header-or'>Logged in as ". $name ."</span>
+								<span class='studioiFrameLogin'>
+									<span id='login-span'>
+										<a href='". $baseUrl ."/Login/LoggonAPI/Logout.aspx' class='btn-control btn-control-large'>Logout</a>
+									</span>
 								</span>
-							</span>
-						</div>
-		";
-	}else{
-		echo 
-		"
-					 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
-						<a href='". $baseUrl ."/Login/NewAge.aspx' target='_blank' class='GrayButton translate' id='header-signup'><span>Sign Up</span></a>
-						<span id='header-or'>or</span>
-							<span class='studioiFrameLogin'>
-								<span id='login-span'>
-									<a id='header-login' class='btn-control btn-control-large'>Login <span class='grey-arrow'>&#9660;</span></a>
+							</div>
+			";
+			break;
+		default:
+			echo 
+			"
+						 <div id='header-login-wrapper' class='iframe-login-signup' data-display-opened=''>
+							<a href='". $baseUrl ."/Login/NewAge.aspx' target='_blank' class='GrayButton translate' id='header-signup'><span>Sign Up</span></a>
+							<span id='header-or'>or</span>
+								<span class='studioiFrameLogin'>
+									<span id='login-span'>
+										<a id='header-login' class='btn-control btn-control-large'>Login <span class='grey-arrow'>&#9660;</span></a>
+									</span>
+									<div id='iFrameLogin' class='studioiFrameLogin' style='display: none'>
+									<iframe class='login-frame' src='". $baseUrl ."/Login/iFrameLogin.aspx' scrolling='no' frameborder='0'></iframe>
 								</span>
-								<div id='iFrameLogin' class='studioiFrameLogin' style='display: none'>
-								<iframe class='login-frame' src='". $baseUrl ."/Login/iFrameLogin.aspx' scrolling='no' frameborder='0'></iframe>
-							</span>
-						</div>
-					 </div>
-		";
+							</div>
+						 </div>
+			";
+			break;
+		
 	}
 ?>
          <img src="<?php echo $baseUrl; ?>/images/IDE/img-studio_title.png" alt="Roblox Studio Title" />
@@ -128,49 +135,58 @@ $ActionRows = mysqli_num_rows($ActionFetch);
                </div>
                <div class="templates" js-data-templatetype="Basic">
 			<?php
-			if ($BasicRows > 0) {
-				while($Betch = $BasicFetch->fetch_assoc()){
-				echo "
-                  <div class='template' placeid='". $Betch['id'] ."'>
-                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Betch['id'] ."&request=place' /></a>
-                     <p>". $Betch['name'] ."</p>
-                  </div>
-				";
-				}
-			}else{
-				echo "<span>There are no templates.</span>";
+			switch(true){
+				case ($BasicRows):
+					foreach($BasicRows as $GameInfo){
+						echo "
+						  <div class='template' placeid='". $GameInfo['id'] ."'>
+							 <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $GameInfo['id'] ."&request=place' /></a>
+							 <p>". $GameInfo['name'] ."</p>
+						  </div>
+						";
+					}
+					break;
+				default:
+					echo "<span>There are no templates.</span>";
+					break;
 			}
 			?>
                </div>
                <div class="templates" js-data-templatetype="Strategy">
 			<?php
-			if ($StrategyRows > 0) {
-				while($Setch = $StrategyFetch->fetch_assoc()){
-				echo "
-                  <div class='template' placeid='". $Setch['id'] ."'>
-                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Setch['id'] ."&request=place' /></a>
-                     <p>". $Setch['name'] ."</p>
-                  </div>
-				";
-				}
-			}else{
-				echo "<span>There are no templates.</span>";
+			switch(true){
+				case ($StrategyRows):
+					foreach($StrategyRows as $GameInfo){
+						echo "
+						  <div class='template' placeid='". $GameInfo['id'] ."'>
+							 <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $GameInfo['id'] ."&request=place' /></a>
+							 <p>". $GameInfo['name'] ."</p>
+						  </div>
+						";
+					}
+					break;
+				default:
+					echo "<span>There are no templates.</span>";
+					break;
 			}
 			?>
                </div>
                <div class="templates" js-data-templatetype="Action">
 			<?php
-			if ($ActionRows > 0) {
-				while($Aetch = $ActionFetch->fetch_assoc()){
-				echo "
-                  <div class='template' placeid='". $Aetch['id'] ."'>
-                     <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Aetch['id'] ."&request=place' /></a>
-                     <p>". $Aetch['name'] ."</p>
-                  </div>
-				";
-				}
-			}else{
-				echo "<span>There are no templates.</span>";
+			switch(true){
+				case ($ActionRows):
+					foreach($ActionRows as $GameInfo){
+						echo "
+						  <div class='template' placeid='". $GameInfo['id'] ."'>
+							 <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $GameInfo['id'] ."&request=place' /></a>
+							 <p>". $GameInfo['name'] ."</p>
+						  </div>
+						";
+					}
+					break;
+				default:
+					echo "<span>There are no templates.</span>";
+					break;
 			}
 			?>
                </div>
