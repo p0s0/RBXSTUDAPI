@@ -17,8 +17,8 @@ switch(true){
 		$loggon = $MainDB->prepare("SELECT password, token FROM users WHERE name = :username");
 		$loggon->execute([':username' => $username]);
 		$results = $loggon->fetch(PDO::FETCH_ASSOC);
-		$checkpsw = $results['password'];
-		$token = $results['token'];
+		$checkpsw = ($results['password'] ?? null);
+		$token = ($results['token'] ?? null);
 		
 		switch(true){
 			case (count($errors) == 0):
