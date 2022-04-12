@@ -57,4 +57,4 @@ CREATE TABLE `users` (
   `token` LONGTEXT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 ```
-Modify ```/game/ProdRBX/Configuration.php``` to use your own configs, create two folders "Avatar" and "UserCreatedImages" inside of ```/Tools/``` and you are done!
+Modify ```/game/ProdRBX/Configuration.php``` to use your own configs, create three folders "ModelUserCreated","PlaceUserCreated" and "UserRendered" inside of ```/Tools/``` and you are done!
