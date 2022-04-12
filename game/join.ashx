@@ -1,47 +1,21 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
 header("content-type:text/plain");
-
-if (isset($_GET['username'])){
-	$username = $_GET['username'];
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
-if (isset($_GET['capp'])){
-	$app = $_GET['capp'];
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
-if (isset($_GET['id'])){
-	$id = $_GET['id'];
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
-if (isset($_GET['ip'])){
-	$ip = $_GET['ip'];
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
-if (isset($_GET['port'])){
-	$port = $_GET['port'];
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
+$name = ($_GET['username'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$capp = ($_GET['capp'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$ip = ($_GET['ip'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$port = (int)($_GET['port'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$id = rand(0, 4392);
 ob_start();
 ?>
 
 --coke's super cool joinscript have credit
 nc = game:GetService("NetworkClient")
-nc:PlayerConnect(<?php echo htmlspecialchars($id); ?>, "<?php echo htmlspecialchars($ip); ?>", <?php echo htmlspecialchars($port); ?>)
+nc:PlayerConnect(<?php echo $id; ?>, "<?php echo htmlspecialchars($ip); ?>", <?php echo htmlspecialchars($port); ?>)
 
 plr = game.Players.LocalPlayer
-plr.Name = "<?php echo htmlspecialchars($username); ?>"
-plr.CharacterAppearance = "<?php echo htmlspecialchars($app); ?>"
+plr.Name = "<?php echo htmlspecialchars($name); ?>"
+plr.CharacterAppearance = "<?php echo htmlspecialchars($capp); ?>"
 
 game:GetService("Visit"):SetUploadUrl("")
 game.Players:SetChatStyle("ClassicAndBubble")
