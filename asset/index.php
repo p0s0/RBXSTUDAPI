@@ -1,15 +1,15 @@
 <?php
 header("content-type: text/plain");
-if(isset($_GET['id'])){
-	$id = $_GET["id"];
-	if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/asset/" . $id)){
+$id = (int)($_GET["id"] ?? die(json_encode(["message" => "Unable to process request."])));
+
+switch(file_exists($_SERVER["DOCUMENT_ROOT"] . "/asset/" . $id)){
+	case true:
 		$file = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/asset/" . $id);
 		echo $file;
-	}else{
+		break;
+	default:
 		header("Location: https://assetdelivery.roblox.com/v1/asset/?id=". $id ."");
 		die();
-	}
-}else{
-	die('{"message":"Unable to process request."}');
+		break;
 }
 ?>
