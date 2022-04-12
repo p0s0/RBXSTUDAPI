@@ -14,18 +14,18 @@ switch(true){
 		$GetInfo = $MainDB->prepare("SELECT id, name, ticket, robux, termtype, admin FROM users WHERE token = :token");
 		$GetInfo->execute([':token' => $RBXTICKET]);
 		$Info = $GetInfo->fetch(PDO::FETCH_ASSOC);
-		$id = $Info['id'];
-		$name = $Info['name'];
-		$ticket = $Info['ticket'];
-		$robux = $Info['robux'];
-		$termtype = $Info['termtype'];
-		$admin = $Info['admin'];
+		$id = ($Info['id'] ?? null);
+		$name = ($Info['name'] ?? null);
+		$ticket = ($Info['ticket'] ?? null);
+		$robux = ($Info['robux'] ?? null);
+		$termtype = ($Info['termtype'] ?? null);
+		$admin = ($Info['admin'] ?? null);
 		break;
 	default:
 		$id = null;
 		$name = null;
-		$ticket = null;
 		$robux = null;
+		$ticket = null;
 		$termtype = null;
 		$admin = null;
 		break;
