@@ -1,39 +1,16 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
 header("content-type:text/plain");
-
-$baseUrl = $_SERVER['HTTP_HOST'];
-if (isset($_GET['IsPlaySolo'])){
-	$is = $_GET['IsPlaySolo'];
-	$UID = $_GET['UserID'];
-	$PID = $_GET['PlaceID'];
-	$UNIVERSE = $_GET['universeId'];
-	
-	if ($is == null){
-	die('{"message":"Unable to process request."}');
-	}
-	
-	if ($UID == null){
-	die('{"message":"Unable to process request."}');
-	}
-	
-	if ($PID == null){
-	die('{"message":"Unable to process request."}');
-	}
-	
-	if ($UNIVERSE == null){
-	die('{"message":"Unable to process request."}');
-	}
-	
-}else{
-	die('{"message":"Unauthorized request."}');
-}
-
+$GetMethod = ($_GET['IsPlaySolo'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$UserID = (int)($_GET['UserID'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$PlaceID = (int)($_GET['PlaceID'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$UniverseID = (int)($_GET['universeId'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
 ob_start();
 ?>
 
+pcall(function() game:SetPlaceID(<?php echo htmlspecialchars($PlaceID); ?>) end)
 game:GetService("RunService"):Run()
-local player = game:GetService("Players"):CreateLocalPlayer(<?php echo htmlspecialchars($UID); ?>)
+local player = game:GetService("Players"):CreateLocalPlayer(<?php echo htmlspecialchars($UserID); ?>)
 pcall(function() player.Name = [========[Player]========] end)
 player:SetSuperSafeChat(false)
 pcall(function() player:SetMembershipType(Enum.MembershipType.None) end)
