@@ -8,6 +8,14 @@ $StrategyFetch->execute();
 $ActionFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'templateaction' AND itemtype = 'place'");
 $ActionFetch->execute();
 
+switch(true){
+	case($name !== null):
+		$UserPlaces = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND creatorid = :cid AND itemtype = 'place'");
+		$UserPlaces->execute([':cid' => $id]);
+		$UserRows = $UserPlaces->fetchAll();
+		break;
+}
+
 $BasicRows = $BasicFetch->fetchAll();
 $StrategyRows = $StrategyFetch->fetchAll();
 $ActionRows = $ActionFetch->fetchAll();
@@ -194,9 +202,36 @@ $ActionRows = $ActionFetch->fetchAll();
             <div id="MyProjectsView" class="welcome-content-area" style="display: none">
                <h2>My Published Projects</h2>
                <div id="AssetList">
+			<?php
+			switch(true){
+				case ($name):
+					switch (true){
+						case ($UserRows):
+							foreach($UserRows as $GameInfo){
+								echo "
+								  <div class='template' placeid='". $GameInfo['id'] ."'>
+									 <a href='' class='game-image'><img width='197' height='115' class='' src='". $baseUrl ."/Tools/Asset.ashx?id=". $GameInfo['id'] ."&request=place' /></a>
+									 <p>". $GameInfo['name'] ."</p>
+								  </div>
+								";
+							}
+							break;
+						default:
+							echo "
+						  <div>
+							 <span>You haven't made any places!</span>
+						  </div>";
+							break;
+					}
+					break;
+				default:
+					echo "
                   <div>
                      <span>You must be logged in to view your published projects!</span>
-                  </div>
+                  </div>";
+					break;
+			}
+			?>
                   <script type="text/javascript">
                      $('#MyProjects').click(function() {
                          $('#header-login').addClass('active');
@@ -204,11 +239,6 @@ $ActionRows = $ActionFetch->fetchAll();
                      });
                   </script>
                </div>
-            </div>
-            <div id="ButtonRow" class="divider-top divider-left divider-bottom">
-               <a class="btn-medium btn-primary" id="EditButton">Edit<span class="btn-text">Edit</span></a>
-               <a class="btn-medium btn-primary" id="BuildButton">Build<span class="btn-text">Build</span></a>
-               <a class="btn-medium btn-negative" id="CollapseButton">Cancel<span class="btn-text">Cancel</span></a>
             </div>
          </div>
       </div>
