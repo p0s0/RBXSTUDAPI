@@ -1,7 +1,10 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
+<?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/UserInfo.php'); ?>
 <?php
+//usually we check for the cookie but uh
+//studio's browser dosent properly unset the cookie...
 switch(true){
-	case (isset($_COOKIE['ROBLOSECURITY'])):
+	case ($name !== null):
 		echo "<script type='text/javascript'>window.parent.location.reload()</script>";
 		break;
 }
