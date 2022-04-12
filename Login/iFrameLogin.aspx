@@ -1,7 +1,9 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
-if (isset($_COOKIE['ROBLOSECURITY'])) {
-	echo "<script type='text/javascript'>window.parent.location.reload()</script>";
+switch(true){
+	case (isset($_COOKIE['ROBLOSECURITY'])){
+		echo "<script type='text/javascript'>window.parent.location.reload()</script>";
+	}
 }
 ?>
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/ProdLogin.php'); ?>
