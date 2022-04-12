@@ -8,7 +8,7 @@ $accdb = "root";
 $passdb = "dwj]ik62Cg98Tj8H";
 $namedb = "prodrbx";
 
-$MainDB = mysqli_connect($hostdb, $accdb, $passdb, $namedb) or die('{"errors":[{"code":"500","message":"An Internal Server Error occurred."}]}');
+$MainDB = new PDO("mysql:host=$hostdb;dbname=$namedb", $accdb, $passdb);
 
 //header('Location: ' . $baseUrl . '/IDE/Maintenance.ashx');
 //die();
