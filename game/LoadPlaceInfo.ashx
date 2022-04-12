@@ -1,11 +1,7 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
 header("content-type:text/plain");
-
-if (!isset($_GET['PlaceId'])){
-	die('{"message":"Unauthorized request."}');
-}
-
+$PlaceId = (int)($_GET['PlaceId'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
 ob_start();
 ?>
 
