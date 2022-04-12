@@ -1,9 +1,9 @@
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
 switch(true){
-	case (isset($_COOKIE['ROBLOSECURITY'])){
+	case (isset($_COOKIE['ROBLOSECURITY'])):
 		echo "<script type='text/javascript'>window.parent.location.reload()</script>";
-	}
+		break;
 }
 ?>
 <?php include($_SERVER['DOCUMENT_ROOT'] . '/Login/LoggonAPI/ProdLogin.php'); ?>
@@ -35,11 +35,13 @@ switch(true){
                   <div style="clear:both"></div>
                   <div id="iFrameCaptchaControl"></div>
 					<?php
-						if (count($errors) > 0){
+					switch(true){
+						case (count($errors) > 0):
 							foreach ($errors as $error){
 								echo "<div id='ErrorMessage' style='color:Red'>". $error ."</div>";
 							}
-						}
+							break;
+					}
 					?>
                   <div class="LoginFormFieldSet">
                      <span id="NotAMemberLink" class="footnote" style="position: absolute;top: 50%;margin-top: -8px;">
