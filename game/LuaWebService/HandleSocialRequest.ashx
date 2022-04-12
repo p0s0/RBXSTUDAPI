@@ -1,27 +1,29 @@
 <?php
 header("content-type:text/plain");
-$GetAllowed = array('1');
-$IsAllowed = array('1');
-	if (isset($_GET['method'])){
-	$method = $_GET['method'];
-	$pid = $_GET['playerid'];
-	$groupid = $_GET['groupid'];
-	
-	if ($method == "GetGroupRank"){
-		if (in_array($pid, $GetAllowed)){
-		echo '<value type="integer">255</value>';
-		}else{
-		echo '<value type="integer">0</value>';
+$method = ($_GET["method"] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$pid = ($_GET['playerid'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$gid = ($_GET['groupid'] ?? die(json_encode(["message" => "Cannot process request at this time."])));
+$GetAllowed = array("1", "2");
+switch ($method){
+	case "GetGroupRank":
+		switch(true){
+			case (in_array($pid, $GetAllowed)):
+				echo '<value type="integer">255</value>';
+				break;
+			default:
+				echo '<value type="integer">0</value>';
+				break;
 		}
-	}elseif($method == "IsInGroup"){
-		if(in_array($pid, $GetAllowed)){
-		echo '<value type="boolean">true</value>';
-		}else{
-		echo '<value type="boolean">false</value>';
+		break;
+	case "IsInGroup":
+		switch(true){
+			case (in_array($pid, $GetAllowed)):
+				echo '<value type="boolean">true</value>';
+				break;
+			default:
+				echo '<value type="boolean">false</value>';
+				break;
 		}
-	}
-	
-	}else{
-	die('{"message":"Cannot process request at this time."}');
-	}
+		break;
+}
 ?>
