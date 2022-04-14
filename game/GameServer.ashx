@@ -1,8 +1,18 @@
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
-header("content-type: text/plain");
-$port = (int)($_GET['port'] ?? die(json_encode(["message" => "Cannot process request at this time."])))
-ob_start();
+	// 8:37 PM
+	// 4/13/22
+	// pos0
+	// Game/GameServer.ashx
+	// GameServer script
+
+	// Init headers.
+	header("content-type: text/plain");
+	// Include our config file.
+	include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php');
+	// Init our port variable.
+	$port = (int)(addslashes($_GET['port']) ?? die(json_encode(["message" => "Cannot process request at this time."])))
+	// Start our output buffer.
+	ob_start();
 ?>
 
 -- Start Game Script Arguments
@@ -61,7 +71,7 @@ local ns = game:GetService("NetworkServer")
 local badgeUrlFlagExists, badgeUrlFlagValue = pcall(function () return settings():GetFFlag("NewBadgeServiceUrlEnabled") end)
 local newBadgeUrlEnabled = badgeUrlFlagExists and badgeUrlFlagValue
 if url~=nil then
-	local url = "http://www.wintes.com"
+	local url = "<?php echo $baseUrl; ?>"
 
 	pcall(function() game:GetService("Players"):SetAbuseReportUrl(url .. "/AbuseReport/InGameChatHandler.ashx") end)
 	pcall(function() game:GetService("ScriptInformationProvider"):SetAssetUrl(url .. "/Asset/") end)
@@ -71,7 +81,8 @@ if url~=nil then
 	if gameCode then
 		game:SetVIPServerId(tostring(gameCode))
 	end
-
+	
+	-- TODO: Make this the actual stuff
 	game:GetService("BadgeService"):SetPlaceId(1818)
 	game:SetPlaceId(1818)
 	game:SetCreatorId(123891239128398123)
@@ -164,14 +175,19 @@ end)
 
 -- Now start the connection
 game:Load("rbxasset://temp.rbxl")
-ns:Start(<?php echo htmlspecialchars($port); ?>, sleeptime)  
+ns:Start(<?php echo $port; ?>, sleeptime)  
 pcall(function() game.LocalSaveEnabled = true end)
 
 -- StartGame --
 Game:GetService("RunService"):Run()
 <?php
-$data = ob_get_clean();
-$signature;
-openssl_sign($data, $signature, $PrivKey, OPENSSL_ALGO_SHA1);
-echo sprintf("--rbxsig%%%s%%%s", base64_encode($signature), $data);
+	// TODO: Use a global sign() function.
+	// Get our output buffer data
+	$data = ob_get_clean();
+	// Init our signature variable
+	$signature;
+	// Call openssl_sign()
+	openssl_sign($data, $signature, $PrivKey, OPENSSL_ALGO_SHA1);
+	// Finally, echo out our signed file.
+	die(sprintf("--rbxsig%%%s%%%s", base64_encode($signature), $data));
 ?>
