@@ -1,28 +1,43 @@
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php'); ?>
 <?php
-//Models for Toolbox have to be:
-//*Free
-//*Public
-//*Approved by Staff
-
-$genre = ($_GET["genre"] ?? null);
-
-switch($genre){
-	case "GameStuff":
-		$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'GameStuff' AND itemtype = 'model'");
-		$ToolboxFetch->execute();
-		break;
-	case "Weapons":
-		$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'Weapons' AND itemtype = 'model'");
-		$ToolboxFetch->execute();
-		break;
-	default:
-		$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND itemtype = 'model'");
-		$ToolboxFetch->execute();
-		break;
-}
-
-$BoxRows = $ToolboxFetch->fetchAll();
+	// 9:05 PM
+	// 4/13/22
+	// pos0
+	// IDE/ClientToolbox.aspx
+	// The toolbox. That's all it is
+	
+	// Models for Toolbox have to be:
+	// *Free
+	// *Public
+	// *Approved by Staff
+	
+	
+	// Include our config file
+	include($_SERVER['DOCUMENT_ROOT'] . '/game/ProdRBX/Configuration.php');
+	
+	// Initialize the main genre variable
+	$genre = (addslashes($_GET["genre"]) ?? null);
+	
+	// Switch case to determine the genre and to determine what to do
+	switch($genre) {
+		// If our genre is GameStuff, then:
+		case "GameStuff":
+			$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'GameStuff' AND itemtype = 'model'");
+			$ToolboxFetch->execute();
+			break;
+		// Otherwise, if our genre is Weapons, then:
+		case "Weapons":
+			$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND genre = 'Weapons' AND itemtype = 'model'");
+			$ToolboxFetch->execute();
+			break;
+		// In any other case:
+		default:
+			$ToolboxFetch = $MainDB->prepare("SELECT * FROM asset WHERE approved = '1' AND public = '1' AND rsprice = '0' AND tkprice = '0' AND itemtype = 'model'");
+			$ToolboxFetch->execute();
+			break;
+	}
+	
+	// Define our BoxRows variable
+	$BoxRows = $ToolboxFetch->fetchAll();
 ?>
 <html>
    <head>
@@ -90,22 +105,27 @@ $BoxRows = $ToolboxFetch->fetchAll();
          <div id="ToolBoxScrollWrapper">
             <div id="ToolboxItems">
 			<?php
-			switch(true){
-				case ($BoxRows):
-					foreach($BoxRows as $Fetch){
-						echo "
-					   <div class='ToolboxItem WithoutVoting' id='span_setitem_". $Fetch['id'] ."' ondragstart='dragRBX(". $Fetch['id'] .")'>   
-						   <a href='javascript:insertContent(". $Fetch['id'] .")' class='itemLink' title='". $Fetch['name'] ."'>       
-						  <img alt='". $Fetch['name'] ."' id='img_span_setitem_". $Fetch['id'] ."' width='60' height='62' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Fetch['id'] ."&request=model' border='0px' onerror='return Roblox.Controls.Image.OnError(this)'>   
-						   </a>
-					   </div>
-						";
-					}
-					break;
-				default:
-				echo "<p align='center' style='font-family:arial;'>There are no models.</p>";
-					break;
-			}
+				// Switch case for determining whether $BoxRows exists
+				switch(true) {
+					// If it does, then:
+					case ($BoxRows):
+						// Loop through BoxRows, and insert a Box inside of the ToolboxItems div for each item.
+						foreach($BoxRows as $Fetch) {
+							echo "
+						   <div class='ToolboxItem WithoutVoting' id='span_setitem_". $Fetch['id'] ."' ondragstart='dragRBX(". $Fetch['id'] .")'>   
+							   <a href='javascript:insertContent(". $Fetch['id'] .")' class='itemLink' title='". $Fetch['name'] ."'>       
+							  <img alt='". $Fetch['name'] ."' id='img_span_setitem_". $Fetch['id'] ."' width='60' height='62' src='". $baseUrl ."/Tools/Asset.ashx?id=". $Fetch['id'] ."&request=model' border='0px' onerror='return Roblox.Controls.Image.OnError(this)'>   
+							   </a>
+						   </div>
+							";
+						}
+						
+						break;
+					// Otherwise, if it doesn't exist, then:
+					default:
+						echo "<p align='center' style='font-family:arial;'>There are no models.</p>";
+						break;
+				}
 			?>
             </div>
          </div>
