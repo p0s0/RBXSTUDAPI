@@ -35,7 +35,7 @@
 					switch (file_exists($_SERVER['DOCUMENT_ROOT'] . "/asset/". $pid)){
 						// If it does, let's sign out with DataModel:Load("asset").
 						 case true:
-							sign(sprintf("game:Load(\"%s/asset/?id=\")"), $baseUrl, $pid);
+							sign(sprintf("game:Load(\"%s/asset/?id=%d\")"), $baseUrl, $pid);
 							break;
 						// If not, however, let's sign out with a generic error message.
 						 default:
